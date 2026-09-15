@@ -67,22 +67,66 @@ bool lista_insertar(lista_t *lista, void *dato, size_t posicion) {
  *
  * Si la posición está mas allá del final de la lista, no se puede eliminar y devuelve NULL.
  */
-void *lista_eliminar(lista_t *lista, void *dato, size_t posicion) {
+void *lista_eliminar(lista_t *lista, size_t posicion) {
+    if(!lista || posicion >= lista->cantidad) return NULL;
 
+    struct nodo *actual = lista->primero;   
+    struct nodo *anterior = NULL; 
+    size_t posicion_actual = 0;
+
+    if(posicion == 0) {
+        lista->primero = actual->siguiente;
+    } 
+       
+    while(actual && posicion_actual < posicion) {
+            anterior = actual;
+            actual = actual->siguiente;
+            posicion_actual++;
+    }
+
+    void *dato_a_devolver = actual->dato;
+    anterior->siguiente = actual->siguiente;
+    free(actual);
+    lista->cantidad--;
+
+    return dato_a_devolver;
 }
 
 /*
  * Reemplaza un dato en la posición dada de la lista y lo devuelve.
  */
 void *lista_reemplazar(lista_t *lista, void *dato, size_t posicion) {
+    if(!lista || posicion >= lista->cantidad) return NULL;
 
+    struct nodo *actual = lista->primero;   
+    size_t posicion_actual = 0;
+
+    while(actual && posicion_actual < posicion) {
+        actual = actual->siguiente;
+        posicion_actual++;
+    }
+
+    void *dato_anterior = actual->dato;
+    actual->dato = dato;
+
+    return dato_anterior;
 }
 
 /*
  * Devuelve el elemento que se encuentra en la posición de la lista.
  */
 void *lista_obtener(lista_t *lista, size_t posicion) {
+    if(!lista || posicion >= lista->cantidad) return NULL;
 
+    struct nodo *actual = lista->primero;   
+    size_t posicion_actual = 0;
+
+    while(actual && posicion_actual < posicion) {
+        actual = actual->siguiente;
+        posicion_actual++;
+    }
+
+    return actual;
 }
 
 /*
@@ -147,7 +191,7 @@ size_t lista_iterar(lista_t *lista, bool (*f)(void *, void *), void *extra) {
  * Libera la lista y toda la memoria asociada.
  */
 void lista_destruir(lista_t *lista) {
-
+    
 }
 
 /*
