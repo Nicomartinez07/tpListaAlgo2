@@ -59,7 +59,31 @@ bool lista_esta_vacia(lista_t *lista) {
  * Si no puede insertar devuelve false.
  */
 bool lista_insertar(lista_t *lista, void *dato, size_t posicion) {
+    if(!lista || !dato || posicion > lista->cantidad) {
+        return false;
+    }
 
+    struct nodo *actual = lista->primero;   
+    struct nodo *a_insertar = malloc(sizeof(struct nodo));
+    if(!a_insertar) return false;
+    a_insertar->dato = dato;
+
+    size_t posicion_actual = 0;
+
+    if(posicion == 0) {
+        a_insertar->siguiente = lista->primero;
+        lista->primero = a_insertar;
+    } else {
+        while(actual->siguiente != NULL && posicion_actual < posicion - 1) {
+            actual = actual->siguiente;
+            posicion_actual++;
+        }
+        a_insertar->siguiente = actual->siguiente;
+        actual->siguiente = a_insertar;
+    }
+
+    lista->cantidad++;
+    return true; 
 }
 
 /*
@@ -76,16 +100,16 @@ void *lista_eliminar(lista_t *lista, size_t posicion) {
 
     if(posicion == 0) {
         lista->primero = actual->siguiente;
-    } 
-       
-    while(actual && posicion_actual < posicion) {
+    } else {
+        while(actual && posicion_actual < posicion) {
             anterior = actual;
             actual = actual->siguiente;
             posicion_actual++;
+        }
+        anterior->siguiente = actual->siguiente;
     }
 
     void *dato_a_devolver = actual->dato;
-    anterior->siguiente = actual->siguiente;
     free(actual);
     lista->cantidad--;
 
@@ -191,7 +215,19 @@ size_t lista_iterar(lista_t *lista, bool (*f)(void *, void *), void *extra) {
  * Libera la lista y toda la memoria asociada.
  */
 void lista_destruir(lista_t *lista) {
+    if(!lista) return;
     
+    struct nodo *actual = lista->primero;   
+
+    while(actual) {
+        struct nodo *aux = actual->siguiente;
+
+        free(actual->dato);
+        free(actual);
+        actual = aux;   
+    }
+
+    free(lista);
 }
 
 /*
@@ -200,7 +236,19 @@ void lista_destruir(lista_t *lista) {
  * Adicionalmente aplica la función destructora a cada elemento almacenado *
  */
 void lista_destruir_todo(lista_t *lista, void (*destructor)(void *)) {
+    if(!lista) return;
 
+    struct nodo *actual = lista->primero;   
+
+    while(actual) {
+        struct nodo *aux = actual->siguiente;
+
+        destructor(actual->dato);
+        free(actual);
+        actual = aux;   
+    }
+
+    free(lista);
 }
 
 /*
