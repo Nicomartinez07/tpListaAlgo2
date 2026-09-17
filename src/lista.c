@@ -7,6 +7,7 @@ struct nodo {
 
 struct lista {
     struct nodo *primero;
+    struct nodo *ultimo;
     size_t cantidad;
 };
 
@@ -73,6 +74,7 @@ bool lista_insertar(lista_t *lista, void *dato, size_t posicion) {
     if(posicion == 0) {
         a_insertar->siguiente = lista->primero;
         lista->primero = a_insertar;
+        lista->ultimo = a_insertar;
     } else {
         while(actual->siguiente != NULL && posicion_actual < posicion - 1) {
             actual = actual->siguiente;
@@ -216,7 +218,7 @@ size_t lista_iterar(lista_t *lista, bool (*f)(void *, void *), void *extra) {
  */
 void lista_destruir(lista_t *lista) {
     if(!lista) return;
-    
+
     struct nodo *actual = lista->primero;   
 
     while(actual) {
