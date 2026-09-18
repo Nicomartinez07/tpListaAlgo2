@@ -152,7 +152,7 @@ void *lista_obtener(lista_t *lista, size_t posicion) {
         posicion_actual++;
     }
 
-    return actual;
+    return actual->dato;
 }
 
 /*
