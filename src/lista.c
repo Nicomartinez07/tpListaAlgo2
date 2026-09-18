@@ -74,6 +74,10 @@ bool lista_insertar(lista_t *lista, void *dato, size_t posicion) {
     if(posicion == 0) {
         a_insertar->siguiente = lista->primero;
         lista->primero = a_insertar;
+        if(lista->cantidad == 0) lista->ultimo = a_insertar;
+    } else if (posicion == lista->cantidad) {
+        a_insertar->siguiente == NULL;
+        lista->ultimo->siguiente = a_insertar;
         lista->ultimo = a_insertar;
     } else {
         while(actual->siguiente != NULL && posicion_actual < posicion - 1) {
@@ -102,6 +106,10 @@ void *lista_eliminar(lista_t *lista, size_t posicion) {
 
     if(posicion == 0) {
         lista->primero = actual->siguiente;
+
+        if (lista->cantidad == 1) {
+            lista->ultimo = NULL;
+        }
     } else {
         while(actual && posicion_actual < posicion) {
             anterior = actual;
@@ -109,6 +117,10 @@ void *lista_eliminar(lista_t *lista, size_t posicion) {
             posicion_actual++;
         }
         anterior->siguiente = actual->siguiente;
+
+        if(actual == lista->ultimo) {
+            lista->ultimo = anterior;
+        }
     }
 
     void *dato_a_devolver = actual->dato;

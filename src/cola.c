@@ -13,9 +13,11 @@ cola_t *cola_crear() {
 }
 
 bool cola_encolar(cola_t *c, void *e) {
-    if(!c)   return NULL;
+    if(!c)   return false;
 
-    bool resultado = lista_insertar(c, e, c->lista->cantidad);
+    size_t cantidad = lista_cantidad(c);
+
+    bool resultado = lista_insertar(c, e, cantidad);
 
     return resultado;
 }
