@@ -11,6 +11,10 @@ struct lista {
     size_t cantidad;
 };
 
+struct lista_iterador {
+    struct lista_t *lista;
+    struct nodo *actual;
+};
 
 const int NO_ENCONTRADO = -1;
 
@@ -269,33 +273,48 @@ void lista_destruir_todo(lista_t *lista, void (*destructor)(void *)) {
  * Crea un iterador de lista
  */
 lista_iterador_t *lista_iterador_crear(lista_t *lista) {
+    if(!lista) return NULL;
 
+    lista_iterador_t *it = malloc(sizeof(lista_iterador_t));
+    if(!it) return NULL;
+
+    it->lista = lista;
+    it->actual = lista->primero;
+
+    return it;
 }
 
 /*
  * Devuelve true si hay mas elementos para iterar
  */
 bool lista_iterador_se_puede_iterar(lista_iterador_t *it) {
-
-}
+    if(!it) return false;
+    return it->actual != NULL;
+}   
 
 /*
  * Avanza a la siguiente iteración
  */
 void lista_iterador_siguiente(lista_iterador_t *it) {
+    if(!it || !it->actual) return;
 
+    it->actual = it->actual->siguiente;
 }
 
 /*
  * Devuelve el elemento actual iterado
  */
 void *lista_iterador_obtener_elemento(lista_iterador_t *it) {
+    if(!it) return NULL;
 
+    return it->actual->dato;
 }
 
 /*
  * Destruye el iterador
  */
 void lista_iterador_destruir(lista_iterador_t *it) {
+    if(!it) return;
 
+    free(it);
 }
