@@ -6,16 +6,21 @@ const int CANTIDAD_MINIMA_PARAMETROS = 3;
 const char RESULTADO_INVALIDO = 'E';
 
 bool iteradores_pueden_iterar(lista_iterador_t **iteradores, int tope) {
+	if(!iteradores) return false;
+
+	bool se_puede_iterar = true;
 	for(int i = 0; i < tope; i++) {
 		if(!lista_iterador_se_puede_iterar(iteradores[i])) {
-			return false;
+			se_puede_iterar = false;
 		}
 	}
 
-	return true;
+	return se_puede_iterar;
 }
 
 lista_t *parsear_lista(char* texto) {
+	if(!texto) return NULL;
+
 	lista_t *lista = lista_crear();
 	size_t lista_cantidad = 0;
 	if(!lista) return NULL;
@@ -30,9 +35,9 @@ lista_t *parsear_lista(char* texto) {
 		if(!valor) return NULL;
 
 
-		valor = (int)numero;
+		*valor = (int)numero;
 
-		lista_insertar(lista, numero, lista_cantidad);
+		lista_insertar(lista, valor, lista_cantidad);
 		lista_cantidad++;
 
 		posicion = fin;
@@ -47,29 +52,57 @@ void liberar_memoria_iteradores(lista_iterador_t **iteradores, int tope) {
 	for(int j = 0; j < tope; j++) {
 		lista_iterador_destruir(iteradores[j]);
 	}
+	free(iteradores);
 }
 
 void liberar_memoria_listas(lista_t **listas, int tope) {
 	for(int l = 0; l < tope; l++) {
 		lista_destruir_todo(listas[l], free);
 	}
+	free(listas);
 }
 
-bool operar(char operador, void *operandos, int tope, int *resultado) {
-	if(operador == '+') {
+bool operar(char operador, int *operandos, int tope, int *resultado)
+{
+    if (!operandos || !resultado || tope == 0)
+        return false;
 
-	} else if(operador == '-') {
+		bool operacion_valida = true;
 
-	} else if(operador == '*') {
+    if (operador == '+') {
+        *resultado = 0;
 
-	} else if(operador == '/') {
+        for (int i = 0; i < tope; i++) {
+            *resultado += operandos[i];
+        }
+    } else if (operador == '-') {
+        *resultado = operandos[0];
 
-	} 
+        for (int i = 1; i < tope; i++) {
+            *resultado -= operandos[i];
+        }
+    } else if (operador == '*') {
+        *resultado = 1;
 
-	return resultado;
+        for (int i = 0; i < tope; i++) {
+            *resultado *= operandos[i];
+        }
+    } else if (operador == '/') {
+        *resultado = operandos[0];
 
+        for (int i = 1; i < tope; i++) {
+            if (operandos[i] == 0) {
+				operacion_valida = false;
+			} else {
+				*resultado /= operandos[i];
+			}
+        }
+    } else {
+        operacion_valida =  false;
+    }
+
+    return operacion_valida;
 }
-
 int main(int argc, char **argv)
 {
 	if (argc < CANTIDAD_MINIMA_PARAMETROS) {
@@ -83,8 +116,8 @@ int main(int argc, char **argv)
 	lista_t **listas = malloc(sizeof(lista_t *) * cantidad_listas);
 	if(!listas) return ERROR;
 
-	for(size_t i = 0; i < argc; i++) {
-		listas[i] = parsear_lista(argv[i+2]);
+	for (size_t i = 0; i < cantidad_listas; i++) {
+		listas[i] = parsear_lista(argv[i + 2]);
 	}
 
 	lista_iterador_t **iteradores = malloc(sizeof(lista_iterador_t *) * cantidad_listas);
@@ -114,12 +147,12 @@ int main(int argc, char **argv)
 		int tope_elementos = 0;
 
 		for (size_t i = 0; i < cantidad_listas; i++) {
-			elementos[i] = lista_iterador_obtener_elemento(iteradores[i]);
+			elementos[i] = *(int *)lista_iterador_obtener_elemento(iteradores[i]);
 			tope_elementos++;
 		}
 
 		size_t cant_actual = lista_cantidad(resultados);
-		int resultado = 0;
+		int *resultado = malloc(sizeof(int));
 		bool operacion_valida = operar(argv[1], elementos, tope_elementos, &resultado); 
 
 		if(operacion_valida) {
@@ -137,7 +170,7 @@ int main(int argc, char **argv)
 
 	imprimir_resultados(resultados);
 	
-	liberar_iteradores(iteradores, cantidad_listas);
+	liberar_memoria_iteradores(iteradores, cantidad_listas);
 	liberar_memoria_listas(listas, cantidad_listas);
 	lista_destruir(resultados);
 
