@@ -2,12 +2,21 @@
 #include "lista.h"
 
 struct cola {
-    struct lista_t *lista;
+    lista_t *lista;
 };
 
 
 cola_t *cola_crear() {
-    cola_t *cola = lista_crear();
+    cola_t *cola = malloc(sizeof(cola_t));
+    if(!cola) {
+        return NULL;
+    }
+
+    cola->lista = lista_crear();
+    if(cola->lista) {
+        free(cola);
+        return NULL;
+    }
 
     return cola;
 }
@@ -15,9 +24,9 @@ cola_t *cola_crear() {
 bool cola_encolar(cola_t *c, void *e) {
     if(!c)   return false;
 
-    size_t cantidad = lista_cantidad(c);
+    size_t cantidad = lista_cantidad(c->lista);
 
-    bool resultado = lista_insertar(c, e, cantidad);
+    bool resultado = lista_insertar(c->lista, e, cantidad);
 
     return resultado;
 }
@@ -25,7 +34,7 @@ bool cola_encolar(cola_t *c, void *e) {
 void *cola_desencolar(cola_t *c) {
     if(!c)   return NULL;
 
-    void *dato = lista_eliminar(c, 0);
+    void *dato = lista_eliminar(c->lista, 0);
 
     return dato;
 }
@@ -33,7 +42,7 @@ void *cola_desencolar(cola_t *c) {
 void *cola_frente(cola_t *c) {
     if(!c)   return NULL;
 
-    void *dato = lista_obtener(c, 0);
+    void *dato = lista_obtener(c->lista, 0);
 
     return dato;
 }
@@ -41,22 +50,23 @@ void *cola_frente(cola_t *c) {
 bool cola_esta_vacia(cola_t *c) {
     if(!c)   return NULL;
 
-    bool resultado = lista_esta_vacia(c);
+    bool resultado = lista_esta_vacia(c->lista);
 
     return resultado;
 }
 
 size_t cola_cantidad(cola_t *c) {
-    if(!c)   return NULL;
+    if(!c)   return 0;
 
-    size_t cantidad = lista_cantidad(c);
+    size_t cantidad = lista_cantidad(c->lista);
 
     return cantidad;
 }
 
-void cola_destruir(cola_t *cola) {
-    if(!cola)   return NULL;
+void cola_destruir(cola_t *c) {
+    if(!c)   return;
 
-    lista_destruir(cola);
+    lista_destruir(c->lista);
+    free(c);
 }
 

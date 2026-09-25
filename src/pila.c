@@ -5,21 +5,28 @@
 #include <stdbool.h>
 
 struct pila {
-    struct lista_t *lista;
+    lista_t *lista;
 };
 
-const int NO_ENCONTRADO = -1;
-
 pila_t *pila_crear() {
-    pila_t *pila = lista_crear();
+    pila_t *pila = malloc(sizeof(pila_t));
+    if(!pila) {
+        return NULL;
+    }
+
+    pila->lista = lista_crear();
+    if(!pila->lista) {
+        free(pila);
+        return NULL;
+    }
 
     return pila;
 }
 
 bool pila_apilar(pila_t *p, void *e) {
-    if(!p)   return NULL;
+    if(!p)   return false;
 
-    bool resultado = lista_insertar(p, e, 0);
+    bool resultado = lista_insertar(p->lista, e, 0);
 
     return resultado;
 }
@@ -30,7 +37,7 @@ bool pila_apilar(pila_t *p, void *e) {
 void *pila_desapilar(pila_t *p) {
     if(!p)   return NULL;
 
-    void *dato = lista_eliminar(p, 0);
+    void *dato = lista_eliminar(p->lista, 0);
 
     return dato;
 }
@@ -41,7 +48,7 @@ void *pila_desapilar(pila_t *p) {
 void *pila_tope(pila_t *p) {
     if(!p)   return NULL;
 
-    void *dato = lista_obtener(p, 0);
+    void *dato = lista_obtener(p->lista, 0);
 
     return dato;
 }
@@ -50,9 +57,9 @@ void *pila_tope(pila_t *p) {
  * Devuelve true si la pila está vacía
  */
 bool pila_esta_vacia(pila_t *p) {
-    if(!p)   return NULL;
+    if(!p)   return false;
 
-    bool resultado = lista_esta_vacia(p);
+    bool resultado = lista_esta_vacia(p->lista);
 
     return resultado;
 }
@@ -61,9 +68,9 @@ bool pila_esta_vacia(pila_t *p) {
  * Devuelve la cantidad de elementos que almacena la pila.
  */
 size_t pila_cantidad(pila_t *p) {
-    if(!p)   return NULL;
+    if(!p)   return 0;
 
-    size_t cantidad = lista_cantidad(p);
+    size_t cantidad = lista_cantidad(p->lista);
 
     return cantidad;
 }
@@ -71,8 +78,9 @@ size_t pila_cantidad(pila_t *p) {
 /*
  * Libera la pila y toda la memoria asociada.
  */
-void pila_destruir(pila_t *pila) {
-    if(!pila)   return NULL;
+void pila_destruir(pila_t *p) {
+    if(!p)   return;
 
-    lista_destruir(pila);
+    lista_destruir(p->lista);
+    free(p);
 }

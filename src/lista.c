@@ -12,7 +12,7 @@ struct lista {
 };
 
 struct lista_iterador {
-    struct lista_t *lista;
+    lista_t *lista;
     struct nodo *actual;
 };
 
@@ -80,7 +80,7 @@ bool lista_insertar(lista_t *lista, void *dato, size_t posicion) {
         lista->primero = a_insertar;
         if(lista->cantidad == 0) lista->ultimo = a_insertar;
     } else if (posicion == lista->cantidad) {
-        a_insertar->siguiente == NULL;
+        a_insertar->siguiente = NULL;
         lista->ultimo->siguiente = a_insertar;
         lista->ultimo = a_insertar;
     } else {
@@ -188,7 +188,7 @@ int lista_buscar(lista_t *lista, void *buscado,
         *encontrado = NULL;
 
     struct nodo *actual = lista->primero;   
-    int i = 0;
+    size_t i = 0;
 
     while(actual && i < lista->cantidad && !se_encontro) {
         if(comparador(actual->dato, buscado)) {
