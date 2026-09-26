@@ -5,17 +5,17 @@ int main()
 {
 	pa2m_nuevo_grupo("============== PRUEBAS DEL TP X ===============");
 
-  pa2m_nuevo_grupo("Pruebas de leer_linea");
-  pruebas_leer_linea();
+  pa2m_nuevo_grupo("Pruebas de cola");
+  pruebas_cola();
 
-  pa2m_nuevo_grupo("Pruebas de buscar");
-  pruebas_buscar();
+  pa2m_nuevo_grupo("Pruebas de pila");
+  pruebas_pila();
 
-  pa2m_nuevo_grupo("Pruebas de combinar");
-  pruebas_combinar();
+  pa2m_nuevo_grupo("Pruebas de lista");
+  pruebas_lista();
 
-  pa2m_nuevo_grupo("Pruebas de archivos");
-  pruebas_archivos();
+  pa2m_nuevo_grupo("Pruebas de programa");
+  pruebas_programa();
 
   return pa2m_mostrar_reporte();
 }

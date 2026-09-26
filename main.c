@@ -5,12 +5,19 @@
 const int ERROR = -1;
 const int CANTIDAD_MINIMA_PARAMETROS = 3;
 const char RESULTADO_INVALIDO = 'E';
+const char SUMA = '+';
+const char RESTA = '-';
+const char MULTIPLICACION = '*';
+const char DIVISION = '/';
 
 typedef struct resultado{
     bool valido;
     int valor;
 } resultado_t;
 
+/*
+ *Imprime el vector de resultados, en caso de resultado no valido, imprime E
+ */
 void imprimir_resultados(lista_t *resultados, size_t tope) {
 	for(size_t i = 0; i < tope; i++) {
 		resultado_t *resultado = lista_obtener(resultados, i);
@@ -28,7 +35,10 @@ void imprimir_resultados(lista_t *resultados, size_t tope) {
 	printf("\n");
 }
 
-bool algun_iteradores_puede_iterar(lista_iterador_t **iteradores, int tope) {
+/*
+ * Devuelve true si algun iterador del vector, tiene elementos para seguir iterando. False en caso contrario.
+ */
+bool algun_iterador_puede_iterar(lista_iterador_t **iteradores, int tope) {
 	if(!iteradores) return false;
 
 	bool se_puede_iterar = false;
@@ -44,6 +54,9 @@ bool algun_iteradores_puede_iterar(lista_iterador_t **iteradores, int tope) {
 	return se_puede_iterar;
 }
 
+/*
+ * Dada una string que represente la lista ingresada por el usuario, crea una lista, e inserta los valores en ella.
+ */
 lista_t *parsear_lista(char* texto) {
 	if(!texto) return NULL;
 
@@ -56,35 +69,38 @@ lista_t *parsear_lista(char* texto) {
 	while(*posicion != '\0') {
 		long numero = strtol(posicion, &fin, 10);
 
-    if (fin == posicion) {
-        lista_destruir_todo(lista, free);
-        return NULL;
-    }
+		if (fin == posicion) {
+			lista_destruir_todo(lista, free);
+			return NULL;
+		}
 
-    int *valor = malloc(sizeof(int));
-    if (!valor) {
-        lista_destruir_todo(lista, free);
-        return NULL;
-    }
+		int *valor = malloc(sizeof(int));
+		if (!valor) {
+			lista_destruir_todo(lista, free);
+			return NULL;
+		}
 
-    *valor = (int)numero;
+		*valor = (int)numero;
 
-    if (!lista_insertar(lista, valor, lista_cantidad(lista))) {
-        free(valor);
-        lista_destruir_todo(lista, free);
-        return NULL;
-    }
+		if (!lista_insertar(lista, valor, lista_cantidad(lista))) {
+			free(valor);
+			lista_destruir_todo(lista, free);
+			return NULL;
+		}
 
-    posicion = fin;
+		posicion = fin;
 
-    if (*posicion == ',') {
-        posicion++;
-    }
+		if (*posicion == ',') {
+			posicion++;
+		}
 	}
 
 	return lista;
 }
 
+/*
+ * Libera memoria de cada iterador y del vector
+ */
 void liberar_memoria_iteradores(lista_iterador_t **iteradores, int tope) {
 	for(int j = 0; j < tope; j++) {
 		lista_iterador_destruir(iteradores[j]);
@@ -92,6 +108,9 @@ void liberar_memoria_iteradores(lista_iterador_t **iteradores, int tope) {
 	free(iteradores);
 }
 
+/*
+ * Libera memoria de cada lista y del vector 
+ */
 void liberar_memoria_listas(lista_t **listas, int tope) {
 	for(int l = 0; l < tope; l++) {
 		lista_destruir_todo(listas[l], free);
@@ -99,6 +118,9 @@ void liberar_memoria_listas(lista_t **listas, int tope) {
 	free(listas);
 }
 
+/*
+ * Aplica el operador, a cada operando y devuelve el resultado.
+ */
 resultado_t *operar(char operador, int *operandos, int tope, resultado_t *resultado)
 {
     if (!operandos || !resultado || tope == 0) {
@@ -108,25 +130,25 @@ resultado_t *operar(char operador, int *operandos, int tope, resultado_t *result
 	resultado->valido = true;
 
 
-    if (operador == '+') {
+    if (operador == SUMA) {
         resultado->valor = 0;
 
         for (int i = 0; i < tope; i++) {
             resultado->valor += operandos[i];
         }
-    } else if (operador == '-') {
+    } else if (operador == RESTA) {
         resultado->valor = operandos[0];
 
         for (int i = 1; i < tope; i++) {
             resultado->valor -= operandos[i];
         }
-    } else if (operador == '*') {
+    } else if (operador == MULTIPLICACION) {
         resultado->valor = 1;
 
         for (int i = 0; i < tope; i++) {
     		resultado->valor *= operandos[i];
         }
-    } else if (operador == '/') {
+    } else if (operador == DIVISION) {
         resultado->valor = operandos[0];
 
         for (int i = 1; i < tope; i++) {
@@ -178,7 +200,7 @@ int main(int argc, char **argv)
 		return ERROR;
 	}
 
-	while(algun_iteradores_puede_iterar(iteradores, cantidad_listas)) {
+	while(algun_iterador_puede_iterar(iteradores, cantidad_listas)) {
 		int *elementos = malloc(sizeof(int) * cantidad_listas);
 		if(!elementos) {
 			liberar_memoria_listas(listas, cantidad_listas);

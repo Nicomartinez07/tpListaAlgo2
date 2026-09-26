@@ -201,7 +201,7 @@ int lista_buscar(lista_t *lista, void *buscado,
     }
 
     if(se_encontro) {
-        return i-1;
+        return (int)i-1;
     }
 
     return NO_ENCONTRADO;
