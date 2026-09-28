@@ -13,7 +13,7 @@ cola_t *cola_crear() {
     }
 
     cola->lista = lista_crear();
-    if(cola->lista) {
+    if(!cola->lista) {
         free(cola);
         return NULL;
     }

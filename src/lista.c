@@ -240,7 +240,6 @@ void lista_destruir(lista_t *lista) {
     while(actual) {
         struct nodo *aux = actual->siguiente;
 
-        free(actual->dato);
         free(actual);
         actual = aux;   
     }
@@ -261,7 +260,9 @@ void lista_destruir_todo(lista_t *lista, void (*destructor)(void *)) {
     while(actual) {
         struct nodo *aux = actual->siguiente;
 
-        destructor(actual->dato);
+        if(destructor) {
+            destructor(actual->dato);   
+        }
         free(actual);
         actual = aux;   
     }

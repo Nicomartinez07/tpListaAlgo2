@@ -16,6 +16,4 @@ void pruebas_pila();
 
 void pruebas_lista();
 
-void pruebas_programa();
-
 #endif // PRUEBAS_H_
