@@ -5,6 +5,9 @@ struct cola {
 	lista_t *lista;
 };
 
+/*
+ * Crea una cola y la devuelve, en caso de error devuelve NULL.
+ */
 cola_t *cola_crear()
 {
 	cola_t *cola = malloc(sizeof(cola_t));
@@ -21,6 +24,9 @@ cola_t *cola_crear()
 	return cola;
 }
 
+/*
+ * Devuelve true si pudo encolar un elemento en la cola. False en caso contrario
+ */
 bool cola_encolar(cola_t *c, void *e)
 {
 	if (!c)
@@ -33,6 +39,9 @@ bool cola_encolar(cola_t *c, void *e)
 	return resultado;
 }
 
+/*
+ * Devuelve el primer elemento de la cola
+ */
 void *cola_desencolar(cola_t *c)
 {
 	if (!c)
@@ -43,6 +52,9 @@ void *cola_desencolar(cola_t *c)
 	return dato;
 }
 
+/*
+ * Devuelve el elemento en el frente de la cola sin desapilarlo
+ */
 void *cola_frente(cola_t *c)
 {
 	if (!c)
@@ -53,6 +65,9 @@ void *cola_frente(cola_t *c)
 	return dato;
 }
 
+/*
+ * Devuelve true si la cola está vacía, false en caso contrario
+ */
 bool cola_esta_vacia(cola_t *c)
 {
 	if (!c)
@@ -63,6 +78,9 @@ bool cola_esta_vacia(cola_t *c)
 	return resultado;
 }
 
+/*
+ * Devuelve la cantidad de elementos que almacena la cola.
+ */
 size_t cola_cantidad(cola_t *c)
 {
 	if (!c)
@@ -73,6 +91,9 @@ size_t cola_cantidad(cola_t *c)
 	return cantidad;
 }
 
+/*
+ * Libera la cola y toda la memoria asociada.
+ */
 void cola_destruir(cola_t *c)
 {
 	if (!c)

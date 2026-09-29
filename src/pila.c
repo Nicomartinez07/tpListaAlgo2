@@ -8,6 +8,9 @@ struct pila {
 	lista_t *lista;
 };
 
+/*
+ * Crea una pila y la devuelve, en caso de error devuelve NULL.
+ */
 pila_t *pila_crear()
 {
 	pila_t *pila = malloc(sizeof(pila_t));
@@ -24,6 +27,9 @@ pila_t *pila_crear()
 	return pila;
 }
 
+/*
+ * Devuelve true si pudo apilar un elemento en la pila. False en caso contrario
+ */
 bool pila_apilar(pila_t *p, void *e)
 {
 	if (!p)
@@ -61,7 +67,7 @@ void *pila_tope(pila_t *p)
 }
 
 /*
- * Devuelve true si la pila está vacía
+ * Devuelve true si la pila está vacía, false en caso contrario
  */
 bool pila_esta_vacia(pila_t *p)
 {

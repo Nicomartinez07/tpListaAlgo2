@@ -199,6 +199,7 @@ int lista_buscar(lista_t *lista, void *buscado,
 	if (!lista || !comparador) {
 		return NO_ENCONTRADO;
 	}
+
 	bool se_encontro = false;
 
 	struct nodo *actual = lista->primero;
