@@ -116,8 +116,8 @@ void prueba_buscar_sin_puntero_elemento()
 	int inexistente = 11;
 
 	int posicion_elemento_buscado = lista_buscar(l, &dato2, comparador, NULL);
-	pa2m_afirmar(posicion_elemento_buscado == 2,
-                 "El dato 10 esta en la posicion 2.\n");
+	pa2m_afirmar(posicion_elemento_buscado == 1,
+                 "El dato 10 esta en la posicion 1.\n");
 
 	int posicion_elemento_buscado_inexistente = lista_buscar(l, &inexistente, comparador, NULL);
 	pa2m_afirmar(posicion_elemento_buscado_inexistente == NO_ENCONTRADO,
@@ -148,13 +148,13 @@ void prueba_buscar_con_puntero_elemento()
 	void *encontrado;
 	int inexistente = 11;
 
-	int posicion_elemento_buscado = lista_buscar(l, &dato2, comparador, encontrado);
+	int posicion_elemento_buscado = lista_buscar(l, &dato2, comparador, &encontrado);
 	pa2m_afirmar(posicion_elemento_buscado == 2,
                  "El dato 10 esta en la posicion 2.\n");
 	pa2m_afirmar(encontrado == &dato10,
                  "Busco un elemento presente y devuelve el dato correcto.\n");
 	
-	int posicion_elemento_buscado_inexistente = lista_buscar(l, &inexistente, comparador, NULL);
+	int posicion_elemento_buscado_inexistente = lista_buscar(l, &inexistente, comparador, &encontrado);
 	pa2m_afirmar(posicion_elemento_buscado_inexistente == NO_ENCONTRADO,
                  "La posicion obtenida es -1 debido a que el elemento no esta en la lista.\n");
 	pa2m_afirmar(encontrado == NULL,
@@ -200,7 +200,7 @@ void prueba_crear_iterador()
 	if (!l)
 		return;
 
-	lista_t *it = lista_iterador_crear(l);
+	lista_iterador_t *it = lista_iterador_crear(l);
 	if (!it)
 		lista_destruir(l);
 		return;
@@ -217,7 +217,7 @@ void prueba_iterar_lista_con_iterador()
 	if (!l)
 		return;
 
-	lista_t *it = lista_iterador_crear(l);
+	lista_iterador_t* *it = lista_iterador_crear(l);
 	if (!it)
 		lista_destruir(l);
 		return;

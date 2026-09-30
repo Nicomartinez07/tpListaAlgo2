@@ -109,8 +109,8 @@ lista_t *parsear_lista(char *texto)
  */
 void liberar_memoria_iteradores(lista_iterador_t **iteradores, int tope)
 {
-	for (int j = 0; j < tope; j++) {
-		lista_iterador_destruir(iteradores[j]);
+	for (int i = 0; i < tope; i++) {
+		lista_iterador_destruir(iteradores[i]);
 	}
 	free(iteradores);
 }
@@ -120,10 +120,16 @@ void liberar_memoria_iteradores(lista_iterador_t **iteradores, int tope)
  */
 void liberar_memoria_listas(lista_t **listas, int tope)
 {
-	for (int l = 0; l < tope; l++) {
-		lista_destruir_todo(listas[l], free);
+	for (int i = 0; i < tope; i++) {
+		lista_destruir_todo(listas[i], free);
 	}
 	free(listas);
+}
+
+void liberar_memorias(lista_t **listas, lista_iterador_t **iteradores, lista_t *resultados, int tope) {
+	liberar_memoria_listas(listas, tope);
+	liberar_memoria_iteradores(iteradores, tope);
+	lista_destruir_todo(resultados, free);
 }
 
 /*
@@ -212,8 +218,7 @@ int main(int argc, char **argv)
 	while (algun_iterador_puede_iterar(iteradores, cantidad_listas)) {
 		int *elementos = malloc(sizeof(int) * (size_t)cantidad_listas);
 		if (!elementos) {
-			liberar_memoria_listas(listas, cantidad_listas);
-			liberar_memoria_iteradores(iteradores, cantidad_listas);
+			liberar_memorias(listas, iteradores, resultados, cantidad_listas);
 			return ERROR;
 		}
 		bool todos_tienen_elementos = true;
@@ -231,8 +236,7 @@ int main(int argc, char **argv)
 		size_t cant_actual = lista_cantidad(resultados);
 		resultado_t *resultado = malloc(sizeof(resultado_t));
 		if (!resultado) {
-			liberar_memoria_listas(listas, cantidad_listas);
-			liberar_memoria_iteradores(iteradores, cantidad_listas);
+			liberar_memorias(listas, iteradores, resultados, cantidad_listas);
 			return ERROR;
 		}
 
@@ -254,9 +258,7 @@ int main(int argc, char **argv)
 
 	imprimir_resultados(resultados, lista_cantidad(resultados));
 
-	liberar_memoria_iteradores(iteradores, cantidad_listas);
-	liberar_memoria_listas(listas, cantidad_listas);
-	lista_destruir_todo(resultados, free);
+	liberar_memorias(listas, iteradores, resultados, cantidad_listas);
 
 	return 0;
 }

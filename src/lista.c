@@ -30,6 +30,7 @@ lista_t *lista_crear()
 
 	lista->cantidad = 0;
 	lista->primero = NULL;
+	lista->ultimo = NULL;
 
 	return lista;
 }
