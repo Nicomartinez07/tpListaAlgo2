@@ -5,10 +5,10 @@
 
 int comparador(void *a, void *b)
 {
-    int val_a = *(int *)a;
-    int val_b = *(int *)b;
+	int val_a = *(int *)a;
+	int val_b = *(int *)b;
 
-    return (val_a > val_b) - (val_a < val_b);
+	return (val_a > val_b) - (val_a < val_b);
 }
 
 void prueba_crear_lista()
@@ -115,15 +115,16 @@ void prueba_buscar_sin_puntero_elemento()
 
 	int inexistente = 11;
 
-	int posicion_elemento_buscado = lista_buscar(l, &dato2, comparador, NULL);
+	int posicion_elemento_buscado =
+		lista_buscar(l, &dato2, comparador, NULL);
 	pa2m_afirmar(posicion_elemento_buscado == 1,
-                 "El dato buscado esta en la posicion 1.\n");
+		     "El dato buscado esta en la posicion 1.\n");
 
-	int posicion_elemento_buscado_inexistente = lista_buscar(l, &inexistente, comparador, NULL);
-	pa2m_afirmar(posicion_elemento_buscado_inexistente == NO_ENCONTRADO,
-                 "La posicion obtenida es -1 debido a que el elemento no esta en la lista.\n");
-
-	
+	int posicion_elemento_buscado_inexistente =
+		lista_buscar(l, &inexistente, comparador, NULL);
+	pa2m_afirmar(
+		posicion_elemento_buscado_inexistente == NO_ENCONTRADO,
+		"La posicion obtenida es -1 debido a que el elemento no esta en la lista.\n");
 
 	lista_destruir(l);
 }
@@ -148,17 +149,22 @@ void prueba_buscar_con_puntero_elemento()
 	void *encontrado;
 	int inexistente = 11;
 
-	int posicion_elemento_buscado = lista_buscar(l, &dato2, comparador, &encontrado);
+	int posicion_elemento_buscado =
+		lista_buscar(l, &dato2, comparador, &encontrado);
 	pa2m_afirmar(posicion_elemento_buscado == 1,
-                 "El dato buscado esta en la posicion 1.\n");
-	pa2m_afirmar(encontrado == &dato10,
-                 "Busco un elemento presente y devuelve el dato correcto.\n");
-	
-	int posicion_elemento_buscado_inexistente = lista_buscar(l, &inexistente, comparador, &encontrado);
-	pa2m_afirmar(posicion_elemento_buscado_inexistente == NO_ENCONTRADO,
-                 "La posicion obtenida es -1 debido a que el elemento no esta en la lista.\n");
-	pa2m_afirmar(encontrado == NULL,
-                 "Al no encontrar el elemento en la lista, devuelve NULL en encontrado.\n");
+		     "El dato buscado esta en la posicion 1.\n");
+	pa2m_afirmar(
+		*(int *)encontrado == dato2,
+		"Busco un elemento presente y devuelve el dato correcto.\n");
+
+	int posicion_elemento_buscado_inexistente =
+		lista_buscar(l, &inexistente, comparador, &encontrado);
+	pa2m_afirmar(
+		posicion_elemento_buscado_inexistente == NO_ENCONTRADO,
+		"La posicion obtenida es -1 debido a que el elemento no esta en la lista.\n");
+	pa2m_afirmar(
+		encontrado == NULL,
+		"Al no encontrar el elemento en la lista, devuelve NULL en encontrado.\n");
 
 	lista_destruir(l);
 }
@@ -193,7 +199,6 @@ void prueba_reemplazar()
 	lista_destruir(l);
 }
 
-
 void prueba_crear_iterador()
 {
 	lista_t *l = lista_crear();
@@ -205,7 +210,6 @@ void prueba_crear_iterador()
 		lista_destruir(l);
 		return;
 	}
-
 
 	pa2m_afirmar(it != NULL, "Se creo un iterador externo a la lista.\n");
 
@@ -219,17 +223,9 @@ void prueba_iterar_lista_con_iterador()
 	if (!l)
 		return;
 
-	lista_iterador_t *it = lista_iterador_crear(l);
-	if (!it) {
-		lista_destruir(l);
-		return;
-	}
-
 	int dato1 = 1;
 	int dato2 = 2;
 	int dato10 = 10;
-
-	pa2m_afirmar(it != NULL, "Se creo un iterador externo a la lista.\n");
 
 	pa2m_afirmar(lista_insertar(l, &dato1, 0),
 		     "Se apilo un elemento en la primer posicion.\n");
@@ -239,14 +235,21 @@ void prueba_iterar_lista_con_iterador()
 		lista_insertar(l, &dato10, lista_cantidad(l) + 10) == false,
 		"No se puede aplicar un elemento mas alla de la cantidad de elementos de la lista.\n");
 
+	lista_iterador_t *it = lista_iterador_crear(l);
+	if (!it) {
+		lista_destruir_todo(l, free);
+		return;
+	}
+	pa2m_afirmar(it != NULL, "Se creo un iterador externo a la lista.\n");
+
 	pa2m_afirmar(lista_iterador_se_puede_iterar(it),
-			  "Se puede iterar la lista porque contiene elementos.\n");
+		     "Se puede iterar la lista porque contiene elementos.\n");
 
 	void *elemento_primera_posicion = lista_iterador_obtener_elemento(it);
 	pa2m_afirmar(
 		*(int *)(elemento_primera_posicion) == 1,
 		"El elemento en la primera posicion condice con el elemento insertado en esa posicion\n");
-	
+
 	lista_iterador_siguiente(it);
 	void *elemento_segunda_posicion = lista_iterador_obtener_elemento(it);
 	pa2m_afirmar(
@@ -288,7 +291,7 @@ void pruebas_lista()
 	pa2m_nuevo_grupo("Prueba crear lista iterador");
 	prueba_crear_iterador();
 
-	pa2m_nuevo_grupo("Prueba crea un iterador en una lista con elementos y los itera obteniendo los elementos y comparandolos");
+	pa2m_nuevo_grupo(
+		"Prueba crea un iterador en una lista con elementos y los itera obteniendo los elementos y comparandolos");
 	prueba_iterar_lista_con_iterador();
-
 }

@@ -2,7 +2,7 @@ VALGRIND_FLAGS=--leak-check=full --track-origins=yes --show-reachable=yes --erro
 CFLAGS = -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O2 -g
 CC = gcc
 
-all: clean pruebas valgrind_alumno main
+all: clean valgrind_alumno main
 
 
 pruebas: pruebas_alumno
