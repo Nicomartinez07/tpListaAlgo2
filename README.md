@@ -14,7 +14,7 @@
 ## Índice
 * [1. Instrucciones](#1-Instrucciones)
   * [1.1. Compilar el proyecto y correr pruebas con valgrind](#11-Compilar-el-proyecto-y-correr-pruebas-con-valgrind)
-  * [1.2. Ejecutar las pruebas](#12-Ejecutar-las-pruebas)
+  * [1.2. Ejecutar solamente las pruebas](#12-Ejecutar-solamente-las-pruebas)
   * [1.3. Ejecutar las pruebas con Valgrind](#13-Ejecutar-las-pruebas-con-Valgrind)
 * [2. Funcionamiento](#2-Funcionamiento)
 * [3. Estructura](#3-Estructura)
@@ -30,7 +30,7 @@
 make
 ```
 
-### 1.2. Ejecutar las pruebas 
+### 1.2. Ejecutar solamente las pruebas 
 ```bash
 make pruebas
 ```
@@ -79,7 +79,7 @@ RESOLUCION: DIAGRAMA DE MEMORIA EL CUAL MUESTRE TODO EL FUNCIONAMIENTO DEL MAIN:
 
 ### 3.2. Análisis de complejidades
 
-A continuacion se va a realizar un analisis de complejidad sobre los 3 tipos de TDA distintos que se piden implementar en el TP. 
+A continuacion se va a realizar un analisis de complejidad sobre los tres tipos de TDA distintos que se piden implementar en el TP. 
 
 ### Análisis de complejidades de funciones TDA lista.
 
@@ -97,7 +97,7 @@ A continuacion se va a realizar un analisis de complejidad sobre los 3 tipos de 
 
 * `lista_obtener` tiene una complejidad de $O(n)$ ya que para obtener un elemento hay que recorrer la lista hasta encontrarlo y retornarlo. Tomando como el peor de los casos (el elemento este en la ultima posición), se recorre la lista entera para obtenerlo.
 
-* `lista_buscar` tiene una complejidad de $O(n)$ considerando que la función comparador tiene una complejidad $O(1)$, debido a que en el peor caso el elemento buscado se encuentra en el N elemento. Si fuera el caso de que la función comparador tiene una complejidad $O(m)$ la complejidad final seria $O(n x m)$ lo que se reduce a $O(n)$.
+* `lista_buscar` tiene una complejidad de $O(n)$ si consideramos que la función comparador tiene una complejidad $O(1)$, debido a que en el peor caso el elemento buscado se encuentra en el N elemento. Si fuera el caso de que la función comparador tiene una complejidad $O(m)$ la complejidad final seria $O(n x m)$.
 
 * `lista_iterar` tiene una complejidad de $O(n)$ ya que en el peor de los casos todos los elementos al aplicarle la función F, devuelven Verdadero, por ende se recorrería la cantidad de nodos que contenga la lista.
 
@@ -109,7 +109,7 @@ A continuacion se va a realizar un analisis de complejidad sobre los 3 tipos de 
 
 * `lista_iterador_se_puede_iterar` tiene una complejidad de $O(1)$ ya que realiza una sola instrucción que es una verificación.
 
-* `lista_iterador_siguiente` tiene una complejidad de $O(1)$ ya que únicamente se repunta el elemento actual de la lista iterada.
+* `lista_iterador_siguiente` tiene una complejidad de $O(1)$ ya que únicamente se actualiza el puntero al elemento actual de la lista iterada.
 
 * `lista_iterador_obtener_elemento` tiene una complejidad de $O(1)$ ya que únicamente se retorna el dato del elemento al que el iterado esta apuntando.
 
@@ -122,9 +122,9 @@ A continuacion se va a realizar un analisis de complejidad sobre los 3 tipos de 
 
 * `cola_encolar` tiene una complejidad de $O(1)$ debido a que se invoca a la función lista_insertar() que con los parámetros enviados, es de complejidad $O(1)$ por ende al sumar la cantidad de instrucciones mas la función encolar termina siendo un proceso de complejidad $O(1)$.
 
-* `cola_desencolar` tiene una complejidad de $O(1)$  debido a que se invoca a la función lista_eliminar() que cuando se eliminar el primer elemento de la lista, es de complejidad $O(1)$ por ende al sumar la cantidad de instrucciones mas la función eliminar termina siendo un proceso de complejidad $O(1)$.
+* `cola_desencolar` tiene una complejidad de $O(1)$  debido a que se invoca a la función lista_eliminar() que cuando se elimina el primer elemento de la lista, es de complejidad $O(1)$ por ende al sumar la cantidad de instrucciones mas la función eliminar termina siendo un proceso de complejidad $O(1)$.
 
-* `cola_frente` tiene una complejidad de $O(1)$ porque a pesar de que se invoca a la función lista_obtener() que en el peor caso tiene complejidad $O(n)$, con los parámetros ingresados se cumple el mejor caso y pasa a ser una función $O(1)$ y la suma total de complejidad es de $O(1)$
+* `cola_frente` tiene una complejidad de $O(1)$ porque al llamar a la funcion lista_obtener() en la posicion frente de la cola, se consulta en la posicion 0, que por implementacion obtiene directamente el primer nodo y eso implica una cantidad fija de instrucciones.
 
 * `cola_esta_vacia` tiene una complejidad de $O(1)$ porque únicamente se retorna el resultado de invocar una función (lista_esta_vacia) cuya complejidad es $O(1)$.
 
@@ -136,11 +136,12 @@ A continuacion se va a realizar un analisis de complejidad sobre los 3 tipos de 
 
 * `pila_crear` tiene una complejidad de $O(1)$ ya que únicamente se realizan instrucciones para solicitar memorias e inicializar variables.
 
-* `pila_apilar` tiene una complejidad de $O(1)$ debido a que se invoca a la función lista_insertar() que con los parámetros enviados, es de complejidad $O(1)$ por ende al sumar la cantidad de instrucciones mas la función encolar termina siendo un proceso de complejidad $O(1)$.
+* `pila_apilar` tiene una complejidad de $O(1)$ debido a que se invoca a la función lista_insertar() que con los parámetros enviados, es de complejidad $O(1)$ por ende al sumar la cantidad de instrucciones mas la función apilar termina siendo un proceso de complejidad $O(1)$.
 
-* `pila_desapilar` tiene una complejidad de $O(1)$ debido a que se invoca a la función lista_eliminar() que cuando se eliminar el primer elemento de la lista, es de complejidad $O(1)$ por ende al sumar la cantidad de instrucciones mas la función eliminar termina siendo un proceso de complejidad $O(1)$.
+* `pila_desapilar` tiene una complejidad de $O(1)$ debido a que se invoca a la función lista_eliminar() que cuando se elimina el primer elemento de la lista, es de complejidad $O(1)$ por ende al sumar la cantidad de instrucciones mas la función eliminar termina siendo un proceso de complejidad $O(1)$.
 
-* `pila_tope` tiene una complejidad de $O(1)$ porque a pesar de que se invoca a la función lista_obtener() que en el peor caso tiene complejidad $O(n)$, con los parámetros ingresados se cumple el mejor caso y pasa a ser una función $O(1)$ y la suma total de complejidad es de $O(1)$
+* `pila_tope` tiene una complejidad de $O(1)$ porque al llamar a la funcion lista_obtener() en la primera posicion de la pila, se consulta en la posicion 0, que por implementacion obtiene directamente el primer nodo y eso implica una cantidad fija de instrucciones.
+
 
 * `pila_esta_vacia` tiene una complejidad de $O(1)$ porque únicamente se retorna el resultado de invocar una función (lista_esta_vacia) cuya complejidad es $O(1)$.
 
@@ -152,33 +153,43 @@ A continuacion se va a realizar un analisis de complejidad sobre los 3 tipos de 
 
 La mayor complejidad en el TP se encuentra en mantener las operaciones **apilar**, **desapilar**, **encolar**, **desencolar**, obtener el **tope** y obtener el **frente** con una complejidad **O(1)**. Con la estructura interna de la lista que plantee en un primer momento se me era imposible, debido a que solamente contenia la lista, y un puntero apuntando a la primera posición. Esto me llevaba a que si queria encolar al final necesariamente tenga que recorrer los N elementos de la lista. Lo cual traia una complejidad **O(n)**. Para evitar esto decidi sumar un puntero para en todo momento saber cual es el ultimo elemento de la lista. Esto me permite simplemente realizar una cantidad constante de instrucciones para hacer que las funciones pedidas mantengan una complejidad **O(1)**.
 
-Además, un problema que me costo mucho identificar era que al ejecutar mi programa con el operador de multiplicación sin comillas, el programa interpreta al caracter *  como un comodin y lo reemplaza por todo el contenido en la carpeta como un argumentos, esto sumado a la forma que tenia de parsear las listas con la función strtol, la cual no encuentra ningun numero y establecia el final como la posición y despues establecia la posición como el fin, me llevaba a que en cada ciclo del while se repita el proceso y se cree un bucle sin fin. Al agregar la validacion y posteriormente abortar la función independientemente de lo enviado por el usuario me encuentro protegido ante ese caso.
+Además, un problema que me costo mucho identificar era que al ejecutar mi programa con el operador de multiplicación sin comillas, el programa interpreta al caracter *  como un comodin y lo reemplaza por todo el contenido en la carpeta como un argumento, esto sumado a la forma que tenia de parsear las listas con la función strtol, la cual no encontraba ningun numero, por lo que establecia el final como la posición y despues establecia la posición como el final, me llevaba a que en cada ciclo del while se repita el proceso y se cree un bucle sin fin. Al agregar la validacion y posteriormente abortar en caso de error, la función independientemente de lo enviado por el usuario me encuentro protegido ante ese caso.
 
-A pesar de la complicacion y todo el tiempo implementado para descubrir el error. Me llevo como aprendizaje que independientemente de las validaciones minimas para evitar casos de usos incorrectos por parte del usuario, siempre hay que manejar todos los posibles casos de error para no sufrir problemas con la memoria u optimizar el tiempo de ejecucion.
+
+A pesar de la complicacion y todo el tiempo implementado para descubrir el error. Me llevo como aprendizaje que independientemente de las validaciones minimas para evitar casos de uso incorrectos por parte del usuario, siempre hay que manejar todos los posibles casos de error para no sufrir problemas con la memoria u optimizar el tiempo de ejecución.
 
 
 ## 5. Respuestas a las preguntas teóricas
 
 ### 5.1. Explicar qué es una lista, lista enlazada y lista doblemente enlazada.
 
+Una lista es estructura de datos que nos permite almacenar una coleccion de elementos. Dependiendo de su implementación, los elementos pueden almacenarse de forma contigua o mediante nodos enlazados.
 
-- Explicar las características de cada una.
-- Explicar las diferencias internas de implementación de cada una.
-- Explicar ventajas y desventajas de cada una, si existen.
+En cambio una lista enlazada es una secuencia de elementos/nodos, los cuales contienen un dato almacenado y una referencia al siguiente nodo. Al ser enlazada nos permite avanzar desde el nodo actual hasta el siguiente mediante su referencia.
+
+La principal ventaja es que nos permite operar con los elementos sin tener que realizar modificaciones grandes en la estructura, simplemente se reasinga la referencia. Una desventaja es que no se puede realizar un acceso directo a una posición sino que se tiene que ir recorriendo los nodos para obtenerlo.
+
+
+Por ultimo una lista doblemente enlazada es una secuencia de elementos/nodos, los cuales contienen un dato almacenado y dos referencias, una referenciando al siguiente nodo, y la otra referenciando al anterior. La principal ventaja es que nos permite recorrer la estructura tanto hacia adelante como para atras. 
 
 ### 5.2 Explicar qué es una lista circular y de qué maneras se puede implementar.
-Para implementar el....
+
+Una lista circular sigue el mismo principio que una lista enlazada, pero el ultimo nodo no apunta a NULL, sino que tiene como referencia el primero de la lista. Dispuestos de esta manera los elementos forman un ciclo. 
+La principal ventaja es que permite recorrer la lista de una manera ciclica para algoritmos que necesiten realizar operaciones sobre un mismo conjunto de elementos pero su desventaja es que se tiene que garantizar alguna condicion especial de corte.
+
+Una forma de implementarla es mediante una lista simplemente enlazada, en la cual el último nodo contiene una referencia al primero.
+
+Otra forma posible es con una lista doblemente enlazada en donde el ultimo nodo contiene una referencia al primero mediante su puntero 'siguiente' y el primer nodo contiene una referencia al ultimo mediante su puntero 'anterior'.
+
 
 ### 5.3 Explicar la diferencia de funcionamiento entre cola y pila.
 La principal diferencia entre una pila y una cola es la forma de manipular los elementos que estan contenidos en ellas. 
-Es decir una cola tiene una estructura FIFO, el primero que entra en la cola, es el primero en salir, esto hace que las operaciones con los elementos se realicen en los extremos unicamente. Los cuales son llamados el frente y ultima posición.
-En cambio las pilas mantienen una estructura LIFO, debido a que el ultimo elemento en ser apilado, es el primer elemento que posteriormente se saca. Por ese simplemente interactuamos con el elemento en un extremo, que usualmente es llamado el tope. 
+Es decir una cola tiene una estructura FIFO, el primero que entra en la cola, es el primero en salir, esto hace que las operaciones con los elementos se realicen en los extremos unicamente. Estos extremos son llamados frente y final.
+En cambio las pilas mantienen una estructura LIFO, debido a que el ultimo elemento en ser apilado, es el primer elemento que posteriormente se saca. Por eso simplemente interactuamos con el elemento en un extremo, que usualmente es llamado el tope. 
 
 ### 5.4 Explicar la diferencia entre un iterador interno y uno externo.
 
+Un iterador interno es una funcion que forma parte del TDA que recorre los elementos de una cierta estructura aplicandole una cierta funcion la cual es responsable de decidir si la funcion sigue iterando o no. Una particularidad es que sobre esta funcion que vamos a aplicar a los elementos de la lista nosotros no tenemos de que compara o como funciona, simplemente sabemos que tenemos que iterar hasta que la misma lo indique. 
+El iterador interno nos puede ayudar a simplificar la implementación de una iteración sobre la estructura, pero a su vez nos restringe el control que tenemos sobre el recorrido.
 
-
-
-
-
-clang-format -i -style=file pruebas/*.c src/*.c main.c
+En cambio un iterador externo es un TDA ajeno al TDA que estamos empleando, pero que sin embargo conoce su estructura. La principal caracteristica es que las primitivas que lo componen tienen todas una complejidad computacional $O(1)$ lo cual nos permite mantener la misma estructura de iteracion que un ciclo tipico, pero con una complejidad $O(n)$ porque se necesita recorrer todos los elementos del TDA.
