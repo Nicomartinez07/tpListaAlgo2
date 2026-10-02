@@ -126,6 +126,9 @@ void liberar_memoria_listas(lista_t **listas, int tope)
 	free(listas);
 }
 
+/*
+ * Libera memoria de todos los elementos solicitados en el main 
+ */
 void liberar_memorias(lista_t **listas, lista_iterador_t **iteradores,
 		      lista_t *resultados, int tope)
 {

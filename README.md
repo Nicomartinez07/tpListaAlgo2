@@ -8,14 +8,14 @@
 
 * Nicolas Martinez
 * 115882
-* nicolasmartinezalfonso@gmail.com
+* nmartinez@fi.uba.ar
 * Nicomartinez07
 
 ## Índice
 * [1. Instrucciones](#1-Instrucciones)
   * [1.1. Compilar el proyecto y correr pruebas con valgrind](#11-Compilar-el-proyecto-y-correr-pruebas-con-valgrind)
   * [1.2. Ejecutar las pruebas](#12-Ejecutar-las-pruebas)
-  * [1.3. Ejecutar el programa con Valgrind](#13-Ejecutar-el-programa-con-Valgrind)
+  * [1.3. Ejecutar el pruebas con Valgrind](#13-Ejecutar-el-pruebas-con-Valgrind)
 * [2. Funcionamiento](#2-Funcionamiento)
 * [3. Estructura](#3-Estructura)
   * [3.1. Diagrama de memoria](#31-Diagrama-de-memoria)
@@ -35,32 +35,34 @@ make
 make pruebas
 ```
 
-### 1.3. Ejecutar el programa con Valgrind
+### 1.3. Ejecutar el pruebas con Valgrind
 ```bash
 make valgrind_alumno
 ```
 
 ## 2. Funcionamiento
-Explicar **qué** hace el TP implementado, aclarando todas las decisiones de funcionamiento que no estaban definidas por el enunciado. Se deben incluir todos los diagramas que consideren necesarios para explicar el funcionamiento del programa.
+El usuario ejecuta el programa con un operador y una determinada cantidad de listas. Independiente del operador que se ejecute se realiza el proceso de parsear las listas enviadas por el usuario y guardarlas en un vector de listas. En esta etapa se realiza una verificacion de que los parametros enviados sean validos.
 
-> [!IMPORTANT]
-> Es muy importante entender la *diferencia entre qué y cómo*. En esta sección **NO** se busca una explicación de cómo implementaste el programa, qué funciones usaste, en qué línea, etc.; se busca una explicación de **qué** es lo que hace el programa en líneas generales. 
+Posteriormente se crean iteradores de listas, para poder en cada iteracion obtener los elementos contenidos en cada lista y posteriormente operar con los mismos.  
 
-> [!WARNING]
-> Es importante usar diagramas para explicar los conceptos de forma clara, pero el exceso será negativo. Los diagramas deben tener un fin explicativo y, por lo general, sirven para reemplazar uno o múltiples párrafos de explicación.
+Luego de realizar las operacion correspondiente con los elementos de cada lista, se realiza una insersion del resultado a un vector de resultados. Por ultimo, se realiza una impresion de los resultados obtenidos por pantalla. Una vez finalizado ese proceso se libera toda la memoria solicitada en la ejecucion del programa.
 
-## 2. Funcionamiento (EJEMPLO)
-El programa recibe 7 números del usuario y una vez obtenidos todos los muestra en pantalla. Para esto define un vector estático de 7 elementos y llena el mismo con los datos que inserta el usuario; cuando termina de insertar todos los números procede a imprimirlos en pantalla.
 <div align="center">
   <img src="img/diagrama_flujo_programa.svg" width="70%">
   <p>Diagrama de flujo del programa explicado con más detalle.</p>
 </div>
 
 ## 3. Estructura
-Explicar cómo se implementó la/s estructura/s pedida/s en el [enunciado](./ENUNCIADO.md). En esta sección el objetivo es explicar en líneas generales, no técnicas, qué contiene la estructura, para qué y por qué.
+El TDA Lista esta compuesto por tres campos
 
-## 3. Estructura (EJEMPLO)
-Para implementar la estructura decidí hacerlo con un campo..., además tiene un puntero que... y eso permite que....
+Hay dos punteros del tipo struct nodo. El primero apunta siempre al primer elemento que contenga la lista. El otro apunta siempre al ultimo elemento que contenga la lista. Esta estructura me permite pensar la lista como un conjunto de nodos, donde siempre se cual es el primero y el ultimo. Cada nodo esta compuesto de un dato de tipo void* para poder manipular cualquier tipo de objeto, y un puntero apuntando al siguiente nodo. 
+ Una lista tambien contiene un size_t cantidad el cual representa la cantidad actual de elementos que contiene la lista.
+
+Por otra parte el TDA lista_iterador, contiene una lista asociada y un nodo actual el cual se utiliza para marcar el nodo al que se esta apuntando en esa correspondiente iteracion. 
+
+El TDA Cola esta compuesto unicamente de una lista debido a que con una lista se pueden realizar las operaciones basicas de una cola simplemente encolando los elementos en la ultima posicion, desencolando los elementos en la primera posicion y obteniendo los elementos de la primera posicion. El resto de las operaciones se pueden realizar reutilizando las funciones de la lista.
+
+Asimismo el TDA Pila esta compuesto unicamente de una lista debido a que con una lista consultando en la primera posicion se pueden realizar las operaciones de apilar, desapilar y consultar el tope. El resto de las operaciones se pueden realizar reutilizando las funciones de la lista.
 
 ### 3.1. Diagrama de memoria
 Realizar un diagrama de memoria de la estructura de memoria durante la ejecución del programa, esto debe incluir el stack y el heap con las estructuras contenidas en ellos.
@@ -148,19 +150,17 @@ A continuacion se va a realizar un analisis de complejidad sobre los 3 tipos de 
 
 ## 4. Decisiones de diseño y/o complejidades de implementación 
 
-Explicar las decisiones de diseño y/o las complejidades de implementación que hubo durante la resolución del TP.
+La mayor complejidad en el TP se encuentra en mantener las operaciones **apilar**, **desapilar**, **encolar**, **desencolar**, obtener el **tope** y obtener el **frente** con una complejidad **O(1)**. Con la estructura interna de la lista que plantee en un primer momento se me era imposible, debido a que solamente contenia la lista, y un puntero apuntando a la primera posicion. Esto me llevaba a que si queria desencolar un elemento en la ultima posicion necesariamente tenga que recorrer los N elementos de la lista. Lo cual traia una complejidad **O(n)**. Para evitar esto decidi sumar un puntero para en todo momento saber cual es el ultimo elemento de la lista. Esto me permite simplemente realizar una cantidad constante de instrucciones para hacer que las funciones pedidas mantengan una complejidad **O(1)**.
 
-La mayor complejidad en el TP se encuentra en la función `foo` que requiere hacer...; es por esto que decidí.... Además, decidí que el programa haga... para mejorar la implementación.
+Además, un problema que me costo mucho identificar era que al ejecutar mi programa con el operador de multiplicacion sin comillas, el programa interpreta al caracter *  como un comodin y lo reemplaza por todo el contenido en la carepta como un argumentos, esto sumado a la forma que tenia de parsear las listas con la funcion strtol, la cual no encuentra ningun numero y establecia el final como la posicion y despues establecia la posicion como el fin, me llevaba a que en cada ciclo del while se repita el proceso y se cree un bucle sin fin. Al agregar la validacion y posteriomente abortar la funcion independientemente de lo enviado por el usuario me encuentro protegido ante ese caso.
 
-Complejidades: 
-
-la cuestion del *
-La cuestion de desarrollar encolar y apilar o(1) con la estructura que tenia al principio
+A pesar de la complicacion y todo el tiempo implementado para descubrir el error. Me llevo como aprendizaje que independientemente de las validaciones minimas para evitar casos de usos incorrectos por parte del usuario, siempre hay que manejar todos los posibles casos de error para no sufrir problemas con la memoria u optimizar el tiempo de ejecucion.
 
 
 ## 5. Respuestas a las preguntas teóricas
 
 ### 5.1. Explicar qué es una lista, lista enlazada y lista doblemente enlazada.
+
 
 - Explicar las características de cada una.
 - Explicar las diferencias internas de implementación de cada una.
@@ -169,10 +169,12 @@ La cuestion de desarrollar encolar y apilar o(1) con la estructura que tenia al 
 ### 5.2 Explicar qué es una lista circular y de qué maneras se puede implementar.
 Para implementar el....
 
-### Explicar la diferencia de funcionamiento entre cola y pila.
-El motivo fue....
+### 5.3 Explicar la diferencia de funcionamiento entre cola y pila.
+La principal diferencia entre una pila y una cola es la forma de manipular los elementos que estan contenidos en ellas. 
+Es decir una cola tiene una estructura FIFO, el primero que entra en la cola, es el primero en salir, esto hace que las operaciones con los elementos se realicen en los extremos unicamente. Los cuales son llamados el frente y ultima posicion.
+En cambio las pilas mantienen una estructura LIFO, debido a que el ultimo elemento en ser apilado, es el primer elemento que posteriormente se saca. Por ese simplemente interactuamos con el elemento en un extremo, que usualmente es llamado el tope. 
 
-### Explicar la diferencia entre un iterador interno y uno externo.
+### 5.4 Explicar la diferencia entre un iterador interno y uno externo.
 
 
 
