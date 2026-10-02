@@ -15,7 +15,7 @@
 * [1. Instrucciones](#1-Instrucciones)
   * [1.1. Compilar el proyecto y correr pruebas con valgrind](#11-Compilar-el-proyecto-y-correr-pruebas-con-valgrind)
   * [1.2. Ejecutar las pruebas](#12-Ejecutar-las-pruebas)
-  * [1.3. Ejecutar el pruebas con Valgrind](#13-Ejecutar-el-pruebas-con-Valgrind)
+  * [1.3. Ejecutar las pruebas con Valgrind](#13-Ejecutar-las-pruebas-con-Valgrind)
 * [2. Funcionamiento](#2-Funcionamiento)
 * [3. Estructura](#3-Estructura)
   * [3.1. Diagrama de memoria](#31-Diagrama-de-memoria)
@@ -35,7 +35,7 @@ make
 make pruebas
 ```
 
-### 1.3. Ejecutar el pruebas con Valgrind
+### 1.3. Ejecutar las pruebas con Valgrind
 ```bash
 make valgrind_alumno
 ```
@@ -45,7 +45,7 @@ El usuario ejecuta el programa con un operador y una determinada cantidad de lis
 
 Posteriormente se crean iteradores de listas, para poder en cada iteracion obtener los elementos contenidos en cada lista y posteriormente operar con los mismos.  
 
-Luego de realizar las operacion correspondiente con los elementos de cada lista, se realiza una insersion del resultado a un vector de resultados. Por ultimo, se realiza una impresion de los resultados obtenidos por pantalla. Una vez finalizado ese proceso se libera toda la memoria solicitada en la ejecucion del programa.
+Luego de realizar las operación correspondiente con los elementos de cada lista, se realiza una inserción del resultado a una lista de resultados. Por ultimo, se realiza una impresion de los resultados obtenidos por pantalla. Una vez finalizado ese proceso se libera toda la memoria solicitada en la ejecucion del programa.
 
 <div align="center">
   <img src="img/diagrama_flujo_programa.svg" width="70%">
@@ -60,9 +60,9 @@ Hay dos punteros del tipo struct nodo. El primero apunta siempre al primer eleme
 
 Por otra parte el TDA lista_iterador, contiene una lista asociada y un nodo actual el cual se utiliza para marcar el nodo al que se esta apuntando en esa correspondiente iteracion. 
 
-El TDA Cola esta compuesto unicamente de una lista debido a que con una lista se pueden realizar las operaciones basicas de una cola simplemente encolando los elementos en la ultima posicion, desencolando los elementos en la primera posicion y obteniendo los elementos de la primera posicion. El resto de las operaciones se pueden realizar reutilizando las funciones de la lista.
+El TDA Cola esta compuesto unicamente de una lista debido a que con una lista se pueden realizar las operaciones basicas de una cola simplemente encolando los elementos en la ultima posición, desencolando los elementos en la primera posición y obteniendo los elementos de la primera posición. El resto de las operaciones se pueden realizar reutilizando las funciones de la lista.
 
-Asimismo el TDA Pila esta compuesto unicamente de una lista debido a que con una lista consultando en la primera posicion se pueden realizar las operaciones de apilar, desapilar y consultar el tope. El resto de las operaciones se pueden realizar reutilizando las funciones de la lista.
+Asimismo el TDA Pila esta compuesto unicamente de una lista debido a que con una lista consultando en la primera posición se pueden realizar las operaciones de apilar, desapilar y consultar el tope. El resto de las operaciones se pueden realizar reutilizando las funciones de la lista.
 
 ### 3.1. Diagrama de memoria
 Realizar un diagrama de memoria de la estructura de memoria durante la ejecución del programa, esto debe incluir el stack y el heap con las estructuras contenidas en ellos.
@@ -150,9 +150,9 @@ A continuacion se va a realizar un analisis de complejidad sobre los 3 tipos de 
 
 ## 4. Decisiones de diseño y/o complejidades de implementación 
 
-La mayor complejidad en el TP se encuentra en mantener las operaciones **apilar**, **desapilar**, **encolar**, **desencolar**, obtener el **tope** y obtener el **frente** con una complejidad **O(1)**. Con la estructura interna de la lista que plantee en un primer momento se me era imposible, debido a que solamente contenia la lista, y un puntero apuntando a la primera posicion. Esto me llevaba a que si queria desencolar un elemento en la ultima posicion necesariamente tenga que recorrer los N elementos de la lista. Lo cual traia una complejidad **O(n)**. Para evitar esto decidi sumar un puntero para en todo momento saber cual es el ultimo elemento de la lista. Esto me permite simplemente realizar una cantidad constante de instrucciones para hacer que las funciones pedidas mantengan una complejidad **O(1)**.
+La mayor complejidad en el TP se encuentra en mantener las operaciones **apilar**, **desapilar**, **encolar**, **desencolar**, obtener el **tope** y obtener el **frente** con una complejidad **O(1)**. Con la estructura interna de la lista que plantee en un primer momento se me era imposible, debido a que solamente contenia la lista, y un puntero apuntando a la primera posición. Esto me llevaba a que si queria encolar al final necesariamente tenga que recorrer los N elementos de la lista. Lo cual traia una complejidad **O(n)**. Para evitar esto decidi sumar un puntero para en todo momento saber cual es el ultimo elemento de la lista. Esto me permite simplemente realizar una cantidad constante de instrucciones para hacer que las funciones pedidas mantengan una complejidad **O(1)**.
 
-Además, un problema que me costo mucho identificar era que al ejecutar mi programa con el operador de multiplicacion sin comillas, el programa interpreta al caracter *  como un comodin y lo reemplaza por todo el contenido en la carepta como un argumentos, esto sumado a la forma que tenia de parsear las listas con la funcion strtol, la cual no encuentra ningun numero y establecia el final como la posicion y despues establecia la posicion como el fin, me llevaba a que en cada ciclo del while se repita el proceso y se cree un bucle sin fin. Al agregar la validacion y posteriomente abortar la funcion independientemente de lo enviado por el usuario me encuentro protegido ante ese caso.
+Además, un problema que me costo mucho identificar era que al ejecutar mi programa con el operador de multiplicación sin comillas, el programa interpreta al caracter *  como un comodin y lo reemplaza por todo el contenido en la carpeta como un argumentos, esto sumado a la forma que tenia de parsear las listas con la función strtol, la cual no encuentra ningun numero y establecia el final como la posición y despues establecia la posición como el fin, me llevaba a que en cada ciclo del while se repita el proceso y se cree un bucle sin fin. Al agregar la validacion y posteriormente abortar la función independientemente de lo enviado por el usuario me encuentro protegido ante ese caso.
 
 A pesar de la complicacion y todo el tiempo implementado para descubrir el error. Me llevo como aprendizaje que independientemente de las validaciones minimas para evitar casos de usos incorrectos por parte del usuario, siempre hay que manejar todos los posibles casos de error para no sufrir problemas con la memoria u optimizar el tiempo de ejecucion.
 
@@ -171,7 +171,7 @@ Para implementar el....
 
 ### 5.3 Explicar la diferencia de funcionamiento entre cola y pila.
 La principal diferencia entre una pila y una cola es la forma de manipular los elementos que estan contenidos en ellas. 
-Es decir una cola tiene una estructura FIFO, el primero que entra en la cola, es el primero en salir, esto hace que las operaciones con los elementos se realicen en los extremos unicamente. Los cuales son llamados el frente y ultima posicion.
+Es decir una cola tiene una estructura FIFO, el primero que entra en la cola, es el primero en salir, esto hace que las operaciones con los elementos se realicen en los extremos unicamente. Los cuales son llamados el frente y ultima posición.
 En cambio las pilas mantienen una estructura LIFO, debido a que el ultimo elemento en ser apilado, es el primer elemento que posteriormente se saca. Por ese simplemente interactuamos con el elemento en un extremo, que usualmente es llamado el tope. 
 
 ### 5.4 Explicar la diferencia entre un iterador interno y uno externo.
